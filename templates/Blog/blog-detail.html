@@ -1,0 +1,57 @@
+{% extends 'Blog/base.html' %}
+
+{% block content %}
+
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2" href="#">{{ postes.author }}</a>|
+                <small class="text-muted">{{ postes.date_published|date:"F d, Y" }}</small>|
+                <a href="{% url 'blog-detail' pk=postes.pk %}">Comments: {{ postes.comments.count }}</a>|
+                <a class="btn btn-primary btn-sm mt-1 mt-1" href="{% url 'add_comment_to_post' pk=postes.pk %}">Add comment</a>|
+                {% if postes.author == user %}
+
+                    <a class="btn btn-secondary btn-sm mt-1 mt-1" href="{% url 'blog-update' postes.id %}">Update</a>
+{#                    <a class="btn btn-danger btn-sm mt-1 mt-1" href="{% url 'blog-delete' postes.id %}">Delete</a>#}
+                {% endif %}
+            </div>
+            <h2><a class="article-title" href="#">{{ postes.title }}</a></h2>
+
+            <p class="article-content">{{ postes.content }}</p>
+
+            <br>
+
+            {% if postes.picture %}
+                <a href="{{ postes.picture.url }}"><img src="{{ postes.picture.url }}" height="200"> </a>
+            {% endif %}
+
+            <br>
+            <br>
+
+
+            {% if postes.file %}
+                <a href="{{ postes.file.url }}" class=" btn btn-primary btn-md ">
+                    Download Pdf
+                </a>
+            {% endif %}
+
+
+        </div>
+
+
+    </article>
+
+    <!--comment section-->
+
+    <hr>
+    {% for comment in postes.comments.all %}
+        <div class="comment" style="padding:10px;">
+            <div class="date">{{ comment.created_on }}</div>
+            <strong>{{ comment.name }}</strong>
+            <p>{{ comment.body|linebreaks }}</p>
+        </div>
+    {% empty %}
+        <p>No comments here yet</p>
+    {% endfor %}
+
+{% endblock %}

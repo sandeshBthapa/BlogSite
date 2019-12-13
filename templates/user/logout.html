@@ -1,0 +1,16 @@
+{% extends 'Blog/base.html' %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+
+    <h2>YOU HAVE LOG OUT</h2>
+    <div class="border-top pt-3">
+
+        <small class="text-muted">
+            <a href="{% url 'login' %}">Login In Again</a>
+
+        </small>
+    </div>
+
+{% endblock %}
